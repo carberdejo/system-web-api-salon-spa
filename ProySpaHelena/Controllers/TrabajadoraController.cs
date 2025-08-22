@@ -18,14 +18,14 @@ namespace ProySpaHelena.Controllers
 
         // GET: api/<TrabajadoraController>
         [HttpGet]
-        public async Task< IEnumerable<Trabajadora>> ListaTrabajadora()
+        public async Task<IEnumerable<Trabajadora>> ListaTrabajadora()
         {
             return await _context.Trabajadoras.ToListAsync();
         }
 
         // GET api/<TrabajadoraController>/5
         [HttpGet("{id}")]
-        public async Task <ActionResult> GetTrabajadoraById(int id)
+        public async Task<ActionResult> GetTrabajadoraById(int id)
         {
             var buscar = await _context.Trabajadoras.FindAsync(id);
             if (buscar == null)
@@ -44,7 +44,7 @@ namespace ProySpaHelena.Controllers
             {
                 _context.Trabajadoras.Add(value);
                 await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(GetTrabajadoraById),new { id = value.Id},value);
+                return CreatedAtAction(nameof(GetTrabajadoraById), new { id = value.Id }, value);
             }
             catch (DbUpdateException ex)
             {
@@ -66,7 +66,7 @@ namespace ProySpaHelena.Controllers
             {
                 return BadRequest($"Error al actualizar la db de trabajadora: {ex.Message}");
             }
-            
+
 
         }
 

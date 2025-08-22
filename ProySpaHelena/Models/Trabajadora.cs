@@ -29,7 +29,7 @@ public partial class Trabajadora
 
     public virtual ICollection<Disponibilidad> Disponibilidads { get; set; } = new List<Disponibilidad>();
 
-    public virtual Role? IdRolNavigation { get; set; } = null!;
+    public virtual Role IdRolNavigation { get; set; } = null!;
 
     public virtual ICollection<Reserva> ReservaRecepcionista { get; set; } = new List<Reserva>();
 

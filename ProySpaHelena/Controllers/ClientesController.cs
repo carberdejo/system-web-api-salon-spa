@@ -24,10 +24,10 @@ namespace ProySpaHelena.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cliente>>> GetClientes()
         {
-          if (_context.Clientes == null)
-          {
-              return NotFound();
-          }
+            if (_context.Clientes == null)
+            {
+                return NotFound();
+            }
             return await _context.Clientes.ToListAsync();
         }
 
@@ -35,10 +35,10 @@ namespace ProySpaHelena.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Cliente>> GetCliente(int id)
         {
-          if (_context.Clientes == null)
-          {
-              return NotFound();
-          }
+            if (_context.Clientes == null)
+            {
+                return NotFound();
+            }
             var cliente = await _context.Clientes.FindAsync(id);
 
             if (cliente == null)
@@ -85,10 +85,10 @@ namespace ProySpaHelena.Controllers
         [HttpPost]
         public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
         {
-          if (_context.Clientes == null)
-          {
-              return Problem("Entity set 'BdSpaHelenaContext.Clientes'  is null.");
-          }
+            if (_context.Clientes == null)
+            {
+                return Problem("Entity set 'BdSpaHelenaContext.Clientes'  is null.");
+            }
             _context.Clientes.Add(cliente);
             await _context.SaveChangesAsync();
 

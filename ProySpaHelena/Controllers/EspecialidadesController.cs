@@ -18,9 +18,9 @@ namespace ProySpaHelena.Controllers
         }
         // GET: api/<EspecialidadesController>
         [HttpGet]
-        public async Task <ActionResult<IEnumerable<VariantesServicio>>> GetEspecialidades()
+        public async Task<ActionResult<IEnumerable<VariantesServicio>>> GetEspecialidades()
         {
-            return Ok( await _context.VariantesServicios.ToListAsync());
+            return Ok(await _context.VariantesServicios.ToListAsync());
         }
 
         // GET api/<EspecialidadesController>/5
@@ -44,9 +44,9 @@ namespace ProySpaHelena.Controllers
                 return BadRequest("El objeto  no puede ser nulo.");
             }
 
-              _context.VariantesServicios.Add(value);
-              await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetEspecialidades), new { id = value.Id }, value); 
+            _context.VariantesServicios.Add(value);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetEspecialidades), new { id = value.Id }, value);
         }
 
         // PUT api/<EspecialidadesController>/5
@@ -77,8 +77,8 @@ namespace ProySpaHelena.Controllers
             _context.VariantesServicios.Update(buscar);
             await _context.SaveChangesAsync();
 
-             return Ok($"Especialidad {buscar.Nombre} eliminada correctamente");
-            
+            return Ok($"Especialidad {buscar.Nombre} eliminada correctamente");
+
         }
     }
 }

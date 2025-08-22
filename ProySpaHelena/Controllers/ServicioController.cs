@@ -17,7 +17,7 @@ namespace ProySpaHelena.Controllers
         }
         // GET: api/<ServicioController>
         [HttpGet]
-        public async Task< IEnumerable<Servicio>> GetServicios()
+        public async Task<IEnumerable<Servicio>> GetServicios()
         {
             return await _context.Servicios.ToListAsync();
         }
@@ -36,7 +36,7 @@ namespace ProySpaHelena.Controllers
 
         // POST api/<ServicioController>
         [HttpPost]
-        public async Task<ActionResult>PostServicios([FromBody] Servicio value)
+        public async Task<ActionResult> PostServicios([FromBody] Servicio value)
         {
             if (value == null)
             {
@@ -51,7 +51,7 @@ namespace ProySpaHelena.Controllers
         [HttpPut]
         public async Task<ActionResult> PutServicios([FromBody] Servicio value)
         {
-            if(value == null)
+            if (value == null)
             {
                 return BadRequest("Servicio cannot be null");
             }
@@ -65,8 +65,8 @@ namespace ProySpaHelena.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletevServicios(int id)
         {
-            var buscar =  await _context.Servicios.FindAsync(id);
-            if(buscar == null)
+            var buscar = await _context.Servicios.FindAsync(id);
+            if (buscar == null)
             {
                 return NotFound();
             }
