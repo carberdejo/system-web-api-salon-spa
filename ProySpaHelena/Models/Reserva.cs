@@ -19,11 +19,11 @@ public partial class Reserva
 
     public int TrabajadoraId { get; set; }
 
-    public virtual Cliente Cliente { get; set; } = null!;
+    public virtual Cliente? Cliente { get; set; } = null!;
 
     public virtual ICollection<DetallesReserva> DetallesReservas { get; set; } = new List<DetallesReserva>();
 
-    public virtual Trabajadora Recepcionista { get; set; } = null!;
+    public virtual Trabajadora? Recepcionista { get; set; } = null!;
 
-    public virtual Trabajadora Trabajadora { get; set; } = null!;
+    public virtual Trabajadora? Trabajadora { get; set; } = null!;
 }

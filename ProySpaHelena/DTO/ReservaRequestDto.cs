@@ -10,7 +10,7 @@ namespace ProySpaHelena.DTO
 
         public DateTime Fecha { get; set; }
 
-        public EstadoReserva? Estado { get; set; }
+        public string? Estado { get; set; }
 
         public string? Notas { get; set; }
 

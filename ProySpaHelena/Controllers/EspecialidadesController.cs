@@ -20,7 +20,7 @@ namespace ProySpaHelena.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VariantesServicio>>> GetEspecialidades()
         {
-            return Ok(await _context.VariantesServicios.ToListAsync());
+            return Ok(await _context.VariantesServicios.Where(x=>x.Activo!.ToLower()=="si").ToListAsync());
         }
 
         // GET api/<EspecialidadesController>/5

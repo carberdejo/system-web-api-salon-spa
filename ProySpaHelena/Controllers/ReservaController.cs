@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProySpaHelena.DTO;
@@ -15,31 +15,39 @@ namespace ProySpaHelena.Controllers
     {
         private readonly BdSpaHelenaContext _context;
 
-
+        
 
         public ReservaController(BdSpaHelenaContext context)
         {
             _context = context;
 
         }
-
         // GET: api/<ReservaController>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Reserva>>> GetReserva()
         {
-            return Ok(await _context.Reservas.ToListAsync());
+            var lista = await _context.Reservas.Select(ReservaMapper.toDTOLinq).ToListAsync();
+         
+            return Ok(lista);
         }
 
         // GET api/<ReservaController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult> GetReserva(int id)
         {
-            var reserva = await _context.Reservas.FindAsync(id);
-            if (reserva == null)
+            //var reserva = await _context.Reservas.FindAsync(id);
+            
+            var response = await _context.Reservas.Where(x => x.Id == id)
+                .Select(ReservaMapper.toDTOLinq).FirstOrDefaultAsync();
+            if (response == null)
             {
                 return NotFound();
             }
-            return Ok(reserva);
+
+            var detalle = await _context.DetallesReservas.Where(x=>x.ReservaId == id).Select(ReservaMapper.DetalletoDTOLinq).ToListAsync();
+            response!.Detalles = detalle;
+
+            return Ok(response);
         }
 
         // POST api/<ReservaController>
@@ -49,8 +57,8 @@ namespace ProySpaHelena.Controllers
             await using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                ReservaMapper reservaMapper = new ReservaMapper();
-                Reserva reserva = reservaMapper.toEntity(value);
+                
+                Reserva reserva = ReservaMapper.toEntity(value);
                 _context.Reservas.Add(reserva);
                 await _context.SaveChangesAsync();
 
@@ -58,7 +66,7 @@ namespace ProySpaHelena.Controllers
                 List<DetallesReserva> lista = new List<DetallesReserva>();
                 foreach (var item in detalle)
                 {
-                    DetallesReserva det = reservaMapper.toEntityDet(item);
+                    DetallesReserva det = ReservaMapper.toEntityDet(item);
                     det.ReservaId = reserva.Id;
                     lista.Add(det);
                 }
@@ -66,8 +74,20 @@ namespace ProySpaHelena.Controllers
                 //Agregar los detalles de la reserva
                 _context.DetallesReservas.AddRange(lista);
                 await _context.SaveChangesAsync();
+
+                // ===========
+
+
+                ReservaReponseDto response = ReservaMapper.toDTO(reserva);
+                foreach (var item in lista)
+                {
+                    response.Detalles.Add(ReservaMapper.toDettDTO(item));
+                }
+
                 await transaction.CommitAsync();
-                return CreatedAtAction(nameof(GetReserva), new { id = reserva.Id }, value);
+
+
+                return CreatedAtAction(nameof(GetReserva), new { id = reserva.Id }, response);
             }
             catch (Exception ex)
             {

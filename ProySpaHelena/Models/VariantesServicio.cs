@@ -19,5 +19,5 @@ public partial class VariantesServicio
 
     public virtual ICollection<DetallesReserva> DetallesReservas { get; set; } = new List<DetallesReserva>();
 
-    public virtual Servicio Servicio { get; set; } = null!;
+    public virtual Servicio? Servicio { get; set; } = null!;
 }

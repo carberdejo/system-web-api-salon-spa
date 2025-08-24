@@ -19,7 +19,7 @@ namespace ProySpaHelena.Controllers
         [HttpGet]
         public async Task<IEnumerable<Servicio>> GetServicios()
         {
-            return await _context.Servicios.ToListAsync();
+            return await _context.Servicios.Where(s => s.Activo!.ToLower()=="si").ToListAsync();
         }
 
         // GET api/<ServicioController>/5
