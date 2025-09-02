@@ -38,10 +38,17 @@ namespace ProySpaHelena.Controllers
         [HttpPost]
         public async Task<ActionResult> PostAsistencia([FromBody] Asistencia value)
         {
-            
+
             await _context.Asistencias.AddAsync(value);
+            if (value.Estado == "PRESENTE" || value.Estado == "TARDE")
+            {
+                var per = await _context.Trabajadoras.FindAsync(value.TrabajadoraId);
+                per!.Estado = "DISPONIBLE";
+                _context.Trabajadoras.Update(per);
+            }
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(Get), new { id = value.Id }, value);
+
 
         }
 
