@@ -9,15 +9,13 @@ public partial class Disponibilidad
 
     public int TrabajadoraId { get; set; }
 
-    public short? DiaSemana { get; set; }
-
     public TimeSpan? HoraInicio { get; set; }
 
     public TimeSpan? HoraFin { get; set; }
 
+    public string? EstadoHorario { get; set; }
+
     public DateTime? ValidoDesde { get; set; }
 
-    public DateTime? ValidoHasta { get; set; }
-
-    public virtual Trabajadora Trabajadora { get; set; } = null!;
+    public virtual Trabajadora? Trabajadora { get; set; } = null!;
 }

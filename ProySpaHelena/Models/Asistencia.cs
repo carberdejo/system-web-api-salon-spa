@@ -11,15 +11,13 @@ public partial class Asistencia
 
     public DateTime Fecha { get; set; }
 
-    public DateTime? HoraEntrada { get; set; }
+    public TimeSpan? HoraEntrada { get; set; }
 
-    public DateTime? HoraSalida { get; set; }
+    public TimeSpan? HoraSalida { get; set; }
 
     public string? Observaciones { get; set; }
 
     public string? Estado { get; set; }
 
-    public DateTime? RegistradaEn { get; set; }
-
-    public virtual Trabajadora Trabajadora { get; set; } = null!;
+    public virtual Trabajadora? Trabajadora { get; set; } = null!;
 }

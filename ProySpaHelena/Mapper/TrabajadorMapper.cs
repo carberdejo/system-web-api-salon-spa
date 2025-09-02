@@ -17,7 +17,9 @@ namespace ProySpaHelena.Mapper
                 Contrasena = req.Contrasena,
                 IdRol = req.IdRol,
                 Activa = "Si",
-                FechaInicio = req.FechaInicio
+                FechaInicio = req.FechaInicio,
+                Estado = "DISPONIBLE"
+
 
             };
         }
@@ -26,11 +28,10 @@ namespace ProySpaHelena.Mapper
             return new Disponibilidad
             {
                 TrabajadoraId = id,
-                DiaSemana = req.DiaSemana,
                 HoraInicio = req.HoraInicio,
                 HoraFin = req.HoraFin,
                 ValidoDesde = req.ValidoDesde,
-                ValidoHasta = req.ValidoHasta
+                EstadoHorario = "HABILITADO"
             };
         }
     }

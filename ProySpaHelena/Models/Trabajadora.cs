@@ -21,6 +21,8 @@ public partial class Trabajadora
 
     public int IdRol { get; set; }
 
+    public string? Estado { get; set; }
+
     public string? Activa { get; set; }
 
     public DateTime? FechaInicio { get; set; }

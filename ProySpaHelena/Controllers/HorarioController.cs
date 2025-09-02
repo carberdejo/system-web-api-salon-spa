@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿    using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProySpaHelena.Models;
 
@@ -44,14 +44,19 @@ namespace ProySpaHelena.Controllers
 
         // PUT api/<HorarioController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> PutHorario(int id, [FromBody] Disponibilidad value)
         {
+            _context.Disponibilidads.Update(value);
+            await _context.SaveChangesAsync();
+            return Ok($"Se edito el horario del trabajador con id {value.TrabajadoraId}");
+
         }
 
         // DELETE api/<HorarioController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+
         }
     }
 }

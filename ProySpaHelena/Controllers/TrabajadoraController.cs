@@ -20,9 +20,14 @@ namespace ProySpaHelena.Controllers
 
         // GET: api/<TrabajadoraController>
         [HttpGet]
-        public async Task<IEnumerable<Trabajadora>> ListaTrabajadora()
+        public async Task<IEnumerable<Trabajadora>> ListaAll()
         {
             return await _context.Trabajadoras.Where(t => t.Activa!.ToLower()=="si").ToListAsync();
+        }
+        [HttpGet("/worker")]
+        public async Task<IEnumerable<Trabajadora>> ListaTrabajadoras()
+        {
+            return await _context.Trabajadoras.Where(t => t.Activa!.ToLower() == "si"&& t.IdRol==2 && t.Estado!.Equals("DISPONIBLE") ).ToListAsync();
         }
 
         // GET api/<TrabajadoraController>/5

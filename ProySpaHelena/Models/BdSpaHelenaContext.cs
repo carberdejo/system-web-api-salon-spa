@@ -33,9 +33,9 @@ public partial class BdSpaHelenaContext : DbContext
 
     public virtual DbSet<VariantesServicio> VariantesServicios { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("server=localhost;database=BD_SPA_HELENA;User ID=sa;Password=sql;TrustServerCertificate=false;Encrypt=false;");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("server=localhost;database=BD_SPA_HELENA;User ID=sa;Password=sql;TrustServerCertificate=false;Encrypt=false;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -43,7 +43,7 @@ public partial class BdSpaHelenaContext : DbContext
 
         modelBuilder.Entity<Asistencia>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__asistenc__3213E83FE0CFA4D5");
+            entity.HasKey(e => e.Id).HasName("PK__asistenc__3213E83F38584BCB");
 
             entity.ToTable("asistencias");
 
@@ -55,20 +55,12 @@ public partial class BdSpaHelenaContext : DbContext
             entity.Property(e => e.Fecha)
                 .HasColumnType("date")
                 .HasColumnName("fecha");
-            entity.Property(e => e.HoraEntrada)
-                .HasColumnType("datetime")
-                .HasColumnName("hora_entrada");
-            entity.Property(e => e.HoraSalida)
-                .HasColumnType("datetime")
-                .HasColumnName("hora_salida");
+            entity.Property(e => e.HoraEntrada).HasColumnName("hora_entrada");
+            entity.Property(e => e.HoraSalida).HasColumnName("hora_salida");
             entity.Property(e => e.Observaciones)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("observaciones");
-            entity.Property(e => e.RegistradaEn)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("registrada_en");
             entity.Property(e => e.TrabajadoraId).HasColumnName("trabajadora_id");
 
             entity.HasOne(d => d.Trabajadora).WithMany(p => p.Asistencia)
@@ -79,7 +71,7 @@ public partial class BdSpaHelenaContext : DbContext
 
         modelBuilder.Entity<Cliente>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__clientes__3213E83F8671DAE1");
+            entity.HasKey(e => e.Id).HasName("PK__clientes__3213E83FF82DDC8E");
 
             entity.ToTable("clientes");
 
@@ -105,7 +97,7 @@ public partial class BdSpaHelenaContext : DbContext
 
         modelBuilder.Entity<DetallesReserva>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__detalles__3213E83F672293D7");
+            entity.HasKey(e => e.Id).HasName("PK__detalles__3213E83F3133A43C");
 
             entity.ToTable("detalles_reserva");
 
@@ -131,21 +123,21 @@ public partial class BdSpaHelenaContext : DbContext
 
         modelBuilder.Entity<Disponibilidad>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__disponib__3213E83F663A0807");
+            entity.HasKey(e => e.Id).HasName("PK__disponib__3213E83FE93296FD");
 
             entity.ToTable("disponibilidad");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.DiaSemana).HasColumnName("dia_semana");
+            entity.Property(e => e.EstadoHorario)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("estado_horario");
             entity.Property(e => e.HoraFin).HasColumnName("hora_fin");
             entity.Property(e => e.HoraInicio).HasColumnName("hora_inicio");
             entity.Property(e => e.TrabajadoraId).HasColumnName("trabajadora_id");
             entity.Property(e => e.ValidoDesde)
                 .HasColumnType("date")
                 .HasColumnName("valido_desde");
-            entity.Property(e => e.ValidoHasta)
-                .HasColumnType("date")
-                .HasColumnName("valido_hasta");
 
             entity.HasOne(d => d.Trabajadora).WithMany(p => p.Disponibilidads)
                 .HasForeignKey(d => d.TrabajadoraId)
@@ -155,7 +147,7 @@ public partial class BdSpaHelenaContext : DbContext
 
         modelBuilder.Entity<Reserva>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__reserva__3213E83FAC10BED6");
+            entity.HasKey(e => e.Id).HasName("PK__reserva__3213E83F11921623");
 
             entity.ToTable("reserva");
 
@@ -193,11 +185,11 @@ public partial class BdSpaHelenaContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.IdRol).HasName("PK__roles__6ABCB5E07CD19212");
+            entity.HasKey(e => e.IdRol).HasName("PK__roles__6ABCB5E0D6687BA2");
 
             entity.ToTable("roles");
 
-            entity.HasIndex(e => e.Nombre, "UQ__roles__72AFBCC609DF47F4").IsUnique();
+            entity.HasIndex(e => e.Nombre, "UQ__roles__72AFBCC6C8638A79").IsUnique();
 
             entity.Property(e => e.IdRol).HasColumnName("id_rol");
             entity.Property(e => e.Nombre)
@@ -208,7 +200,7 @@ public partial class BdSpaHelenaContext : DbContext
 
         modelBuilder.Entity<Servicio>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__servicio__3213E83FB77CF3B4");
+            entity.HasKey(e => e.Id).HasName("PK__servicio__3213E83F8313188C");
 
             entity.ToTable("servicios");
 
@@ -227,11 +219,11 @@ public partial class BdSpaHelenaContext : DbContext
 
         modelBuilder.Entity<Trabajadora>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__trabajad__3213E83FD8B9C8AD");
+            entity.HasKey(e => e.Id).HasName("PK__trabajad__3213E83F6FC368B2");
 
             entity.ToTable("trabajadoras");
 
-            entity.HasIndex(e => e.Correo, "UQ__trabajad__2A586E0BB15FE14E").IsUnique();
+            entity.HasIndex(e => e.Correo, "UQ__trabajad__2A586E0B59A38863").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Activa)
@@ -253,6 +245,10 @@ public partial class BdSpaHelenaContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("correo");
             entity.Property(e => e.Dni).HasColumnName("dni");
+            entity.Property(e => e.Estado)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("estado");
             entity.Property(e => e.FechaInicio)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
@@ -275,7 +271,7 @@ public partial class BdSpaHelenaContext : DbContext
 
         modelBuilder.Entity<VariantesServicio>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__variante__3213E83FE843A0D8");
+            entity.HasKey(e => e.Id).HasName("PK__variante__3213E83F1B9ABC9D");
 
             entity.ToTable("variantes_servicio");
 

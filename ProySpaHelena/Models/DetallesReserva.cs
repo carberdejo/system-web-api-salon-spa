@@ -15,7 +15,7 @@ public partial class DetallesReserva
 
     public decimal Precio { get; set; }
 
-    public virtual Reserva Reserva { get; set; } = null!;
+    public virtual Reserva? Reserva { get; set; } = null!;
 
-    public virtual VariantesServicio Variante { get; set; } = null!;
+    public virtual VariantesServicio? Variante { get; set; } = null!;
 }

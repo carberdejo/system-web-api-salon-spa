@@ -1,4 +1,4 @@
-﻿namespace ProySpaHelena.DTO
+﻿namespace ProySpaHelena.Models
 {
     public class ReporteReserva
     {

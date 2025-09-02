@@ -31,6 +31,21 @@ namespace ProySpaHelena.Controllers
             return Ok(lista);
         }
 
+        [HttpGet("Pendiente")]
+        public async Task<ActionResult<IEnumerable<Reserva>>> GetReservaPendiente()
+        {
+            var lista = await _context.Reservas.Where(r => r.Estado!.ToLower() == "pendiente").Select(ReservaMapper.toDTOLinq).ToListAsync();
+
+            return Ok(lista);
+        }
+        [HttpGet("Progreso")]
+        public async Task<ActionResult<IEnumerable<Reserva>>> GetReservaProgreso()
+        {
+            var lista = await _context.Reservas.Where(r => r.Estado!.ToLower() == "en_servicio").Select(ReservaMapper.toDTOLinq).ToListAsync();
+
+            return Ok(lista);
+        }
+
         // GET api/<ReservaController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult> GetReserva(int id)
@@ -75,38 +90,40 @@ namespace ProySpaHelena.Controllers
                 _context.DetallesReservas.AddRange(lista);
                 await _context.SaveChangesAsync();
 
-                // ===========
-
-
-                ReservaReponseDto response = ReservaMapper.toDTO(reserva);
-                foreach (var item in lista)
-                {
-                    response.Detalles.Add(ReservaMapper.toDettDTO(item));
-                }
 
                 await transaction.CommitAsync();
 
 
-                return CreatedAtAction(nameof(GetReserva), new { id = reserva.Id }, response);
+                return CreatedAtAction(nameof(GetReserva), new { id = reserva.Id }, reserva);
             }
             catch (Exception ex)
             {
                 await transaction.RollbackAsync();
+                Console.WriteLine(ex.ToString());
                 return BadRequest($"Error al insertar la reserva: {ex.Message}");
             }
         }
 
         // GET api/<ReservaController>/5
         [HttpPut("{id}/estado")]
-        public async Task<ActionResult> UpdateEstado(int id, [FromBody]EstadoReserva estado)
+        public async Task<ActionResult> UpdateEstado(int id, [FromBody]string estado)
         {
             var reserva = await _context.Reservas.FindAsync(id);
             if (reserva == null)
             {
                 return NotFound();
             }
-            reserva.Estado = estado.ToString();
+            reserva.Estado = estado;
             _context.Reservas.Update(reserva);
+            if(estado.ToLower() == "en_servicio")
+            {
+                await _context.Trabajadoras.Where(t => t.Id == reserva.TrabajadoraId)
+                    .ExecuteUpdateAsync(t => t.SetProperty(t => t.Estado, "OCUPADO"));
+            }else if (estado.ToLower() == "completada")
+            {
+                await _context.Trabajadoras.Where(t => t.Id == reserva.TrabajadoraId)
+                    .ExecuteUpdateAsync(t => t.SetProperty(t => t.Estado, "DISPONIBLE"));
+            }
             await _context.SaveChangesAsync();
             return Ok(reserva);
         }
