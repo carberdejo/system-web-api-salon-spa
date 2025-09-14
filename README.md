@@ -71,4 +71,4 @@ El **Sistema de Salon Spa** permite la gestión integral de un salon spa, incluy
 - Manejo global de errores.  
 - Tests unitarios e integración.  
 
-© 2025 COUDEVI. Todos los derechos reservados.
+© 2025 BERDEJO. Todos los derechos reservados.
